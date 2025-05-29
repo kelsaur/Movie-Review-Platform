@@ -1,6 +1,6 @@
 const Movie = require("../models/Movie");
 
-const verifyMovieId = async (req, res, next) => {
+const validateMovieId = async (req, res, next) => {
 	const { id } = req.params;
 
 	try {
@@ -19,4 +19,4 @@ const verifyMovieId = async (req, res, next) => {
 	}
 };
 
-module.exports = verifyMovieId;
+module.exports = { validateMovieId };

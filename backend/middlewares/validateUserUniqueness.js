@@ -4,6 +4,9 @@ const User = require("../models/User");
 const validateUserUniqueness = async (req, res, next) => {
 	const { email, username } = req.body;
 
+	email = email.trim().toLowerCase();
+	username = username.trim().toLowerCase();
+
 	try {
 		const userExists = await User.findOne({
 			$or: [{ email }, { username: req.body.username }],

@@ -5,9 +5,9 @@ const verifyUserCredentials = async (req, res, next) => {
 	const { email, password } = req.body;
 
 	try {
-		const user = await User.findOne({ email });
+		const user = await User.findOne({ email: email.trim().toLowerCase() });
 		if (!user) {
-			const error = new Error("User with this email doesnt exist!");
+			const error = new Error("User with this email doesn't exist!");
 			error.statusCode = 401;
 			return next(error);
 		}

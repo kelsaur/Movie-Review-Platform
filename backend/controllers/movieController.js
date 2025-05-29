@@ -10,11 +10,12 @@ exports.getMovies = async (req, res, next) => {
 };
 
 exports.addMovie = async (req, res, next) => {
+	//console.log("addMovie hit!");
 	const { title, director, releaseYear, genre } = req.body;
 
 	try {
 		const newMovie = await Movie.create({
-			title,
+			title: title.trim().toLowerCase(),
 			director,
 			releaseYear,
 			genre,
@@ -22,6 +23,7 @@ exports.addMovie = async (req, res, next) => {
 
 		res.status(201).json({ success: true, newMovie });
 	} catch (error) {
+		//console.error("Error in addmovie: ", error);
 		next(error);
 	}
 };

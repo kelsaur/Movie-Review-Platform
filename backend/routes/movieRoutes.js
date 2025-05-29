@@ -3,7 +3,7 @@ const router = express.Router();
 const {
 	validateMovieUniqueness,
 } = require("../middlewares/validateMovieUniqueness");
-const { validateMovieId } = require("../middlewares/verifyMovieId");
+const { validateMovieId } = require("../middlewares/validateMovieId");
 const {
 	getMovies,
 	addMovie,
