@@ -7,15 +7,6 @@ exports.registerUser = async (req, res, next) => {
 	const saltRounds = 10;
 
 	try {
-		//****move to middleware file****
-		const userExists = await User.findOne({ email });
-		if (userExists) {
-			const error = new Error("Email already in use!");
-			error.statusCode = 400;
-			return next(error);
-		}
-		//****move to middleware file****
-
 		const hashedPassword = await bcrypt.hash(password, saltRounds);
 
 		const newUser = await User.create({
@@ -36,27 +27,9 @@ exports.registerUser = async (req, res, next) => {
 };
 
 exports.logIn = async (req, res, next) => {
-	const { email, password } = req.body;
+	const user = req.user;
 
 	try {
-		//****move to middleware file****
-		const user = await User.findOne({ email });
-		if (!user) {
-			const error = new Error("User with this email doesnt exist!");
-			error.statusCode = 401;
-			return next(error);
-		}
-		//****move to middleware file****
-
-		//****move to middleware file****
-		const isMatch = await bcrypt.compare(password, user.password);
-		if (!isMatch) {
-			const error = new Error("Invalid password!");
-			error.statusCode = 401;
-			return next(error);
-		}
-		//****move to middleware file****
-
 		const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
 			expiresIn: process.env.JWT_EXPIRES_IN || "3h",
 		});
@@ -65,6 +38,7 @@ exports.logIn = async (req, res, next) => {
 			success: true,
 			message: `Log in successful! Welcome ${user.username}`,
 			token,
+			user,
 		});
 	} catch (error) {
 		next(error);

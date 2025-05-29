@@ -1,6 +1,4 @@
 const Validator = require("fastest-validator");
-const bcrypt = require("bcryptjs");
-const User = require("../models/User");
 
 const v = new Validator();
 
