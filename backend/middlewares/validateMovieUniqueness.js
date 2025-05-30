@@ -1,6 +1,6 @@
-const Movie = require("../models/Movie");
+import Movie from "../models/Movie.js";
 
-const validateMovieUniqueness = async (req, res, next) => {
+export const validateMovieUniqueness = async (req, res, next) => {
 	const { title } = req.body;
 
 	try {
@@ -18,5 +18,3 @@ const validateMovieUniqueness = async (req, res, next) => {
 		next(error);
 	}
 };
-
-module.exports = { validateMovieUniqueness };

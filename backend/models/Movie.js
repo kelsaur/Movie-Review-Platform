@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+import { genres } from "../utils/constants.js";
 
 const movieSchema = new mongoose.Schema({
 	title: {
@@ -18,7 +19,9 @@ const movieSchema = new mongoose.Schema({
 	genre: {
 		type: String,
 		required: true,
+		enum: genres,
 	},
 });
 
-module.exports = mongoose.model("Movie", movieSchema);
+const Movie = mongoose.model("Movie", movieSchema);
+export default Movie;

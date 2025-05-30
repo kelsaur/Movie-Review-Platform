@@ -1,4 +1,6 @@
-exports.errorHandler = (err, req, res, next) => {
+import { AppError } from "../utils/AppError.js";
+
+export const errorHandler = (err, req, res, next) => {
 	if (err.name === "ValidationError") {
 		return res.status(400).json({
 			success: false,
@@ -6,9 +8,10 @@ exports.errorHandler = (err, req, res, next) => {
 		});
 	}
 
-	if (err.statusCode) {
+	if (err instanceof AppError) {
 		return res.status(err.statusCode).json({
 			success: false,
+			status: err.status,
 			message: err.message,
 		});
 	}

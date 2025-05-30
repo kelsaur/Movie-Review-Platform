@@ -1,6 +1,6 @@
-const Movie = require("../models/Movie");
+import Movie from "../models/Movie.js";
 
-const validateMovieId = async (req, res, next) => {
+export const validateMovieId = async (req, res, next) => {
 	const { id } = req.params;
 
 	try {
@@ -18,5 +18,3 @@ const validateMovieId = async (req, res, next) => {
 		next(error);
 	}
 };
-
-module.exports = { validateMovieId };

@@ -1,6 +1,6 @@
-const Movie = require("../models/Movie");
+import Movie from "../models/Movie.js";
 
-exports.getMovies = async (req, res, next) => {
+export const getMovies = async (req, res, next) => {
 	try {
 		const movies = await Movie.find();
 		res.status(200).json({ success: true, movies });
@@ -9,7 +9,7 @@ exports.getMovies = async (req, res, next) => {
 	}
 };
 
-exports.addMovie = async (req, res, next) => {
+export const addMovie = async (req, res, next) => {
 	//console.log("addMovie hit!");
 	const { title, director, releaseYear, genre } = req.body;
 
@@ -28,7 +28,7 @@ exports.addMovie = async (req, res, next) => {
 	}
 };
 
-exports.getMovie = async (req, res, next) => {
+export const getMovie = async (req, res, next) => {
 	const movie = req.movie;
 
 	try {
@@ -38,7 +38,7 @@ exports.getMovie = async (req, res, next) => {
 	}
 };
 
-exports.updateMovie = async (req, res, next) => {
+export const updateMovie = async (req, res, next) => {
 	const movie = req.movie;
 	const { title, director, releaseYear, genre } = req.body;
 
@@ -56,7 +56,7 @@ exports.updateMovie = async (req, res, next) => {
 	}
 };
 
-exports.deleteMovie = async (req, res, next) => {
+export const deleteMovie = async (req, res, next) => {
 	const movie = req.movie;
 
 	try {

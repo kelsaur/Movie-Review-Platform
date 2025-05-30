@@ -1,7 +1,6 @@
-const User = require("../models/User");
-/*Fastest-validator can't check that the email/username aready doesn't exist -> need an extra check*/
+import User from "../models/User.js";
 
-const validateUserUniqueness = async (req, res, next) => {
+export const validateUserUniqueness = async (req, res, next) => {
 	const { email, username } = req.body;
 
 	email = email.trim().toLowerCase();
@@ -22,5 +21,3 @@ const validateUserUniqueness = async (req, res, next) => {
 		next(error);
 	}
 };
-
-module.exports = { validateUserUniqueness };

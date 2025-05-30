@@ -1,7 +1,7 @@
-const bcrypt = require("bcryptjs");
-const User = require("../models/User");
+import bcrypt from "bcryptjs";
+import User from "../models/User.js";
 
-const verifyUserCredentials = async (req, res, next) => {
+export const verifyUserCredentials = async (req, res, next) => {
 	const { email, password } = req.body;
 
 	try {
@@ -25,5 +25,3 @@ const verifyUserCredentials = async (req, res, next) => {
 		next(error);
 	}
 };
-
-module.exports = { verifyUserCredentials };

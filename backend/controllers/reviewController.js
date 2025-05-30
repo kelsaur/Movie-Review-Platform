@@ -1,6 +1,6 @@
-const Review = require("../models/Review");
+import Review from "../models/Review.js";
 
-exports.getReviews = async (req, res, next) => {
+export const getReviews = async (req, res, next) => {
 	try {
 		const reviews = await Review.find();
 		res.status(200).json({ success: true, reviews });
@@ -9,7 +9,7 @@ exports.getReviews = async (req, res, next) => {
 	}
 };
 
-exports.addReview = async (req, res, next) => {
+export const addReview = async (req, res, next) => {
 	const { movieId, userId, rating, comment } = req.body;
 
 	try {
@@ -26,7 +26,7 @@ exports.addReview = async (req, res, next) => {
 	}
 };
 
-exports.getReview = async (req, res, next) => {
+export const getReview = async (req, res, next) => {
 	const { id } = req.params;
 
 	try {
@@ -40,7 +40,7 @@ exports.getReview = async (req, res, next) => {
 	}
 };
 
-exports.updateReview = async (req, res, next) => {
+export const updateReview = async (req, res, next) => {
 	const { id } = req.params;
 	const { rating, comment } = req.body;
 
@@ -56,19 +56,17 @@ exports.updateReview = async (req, res, next) => {
 
 		//***!middleware - review not found!***
 
-		res
-			.status(200)
-			.json({
-				success: true,
-				message: "Review updated!",
-				review: updatedReview,
-			});
+		res.status(200).json({
+			success: true,
+			message: "Review updated!",
+			review: updatedReview,
+		});
 	} catch (error) {
 		next(error);
 	}
 };
 
-exports.deleteReview = async (req, res, next) => {
+export const deleteReview = async (req, res, next) => {
 	const { id } = req.params;
 
 	try {

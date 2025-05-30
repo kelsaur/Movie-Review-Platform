@@ -1,14 +1,15 @@
-const express = require("express");
-const router = express.Router();
-const {
+import express from "express";
+import {
 	getReviews,
 	addReview,
 	getReview,
 	updateReview,
 	deleteReview,
-} = require("../controllers/reviewController");
+} from "../controllers/reviewController.js";
+
+const router = express.Router();
 
 router.route("/").get(getReviews).post(addReview);
 router.route("/:id").get(getReview).put(updateReview).delete(deleteReview);
 
-module.exports = router;
+export default router;
