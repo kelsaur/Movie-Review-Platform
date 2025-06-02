@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
+import { AppError } from "../utils/AppError.js";
 
 export const verifyUserCredentials = async (req, res, next) => {
 	const { email, password } = req.body;
@@ -7,16 +8,12 @@ export const verifyUserCredentials = async (req, res, next) => {
 	try {
 		const user = await User.findOne({ email: email.trim().toLowerCase() });
 		if (!user) {
-			const error = new Error("User with this email doesn't exist!");
-			error.statusCode = 401;
-			return next(error);
+			return next(new AppError("User with this email doesn't exist!"), 401);
 		}
 
 		const isMatch = await bcrypt.compare(password, user.password);
 		if (!isMatch) {
-			const error = new Error("Invalid password!");
-			error.statusCode = 401;
-			return next(error);
+			return next(new AppError("Invalid password!", 401));
 		}
 
 		req.user = user;

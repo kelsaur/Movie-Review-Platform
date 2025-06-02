@@ -1,4 +1,5 @@
 import Movie from "../models/Movie.js";
+import { AppError } from "../utils/AppError.js";
 
 export const validateMovieUniqueness = async (req, res, next) => {
 	const { title } = req.body;
@@ -9,9 +10,7 @@ export const validateMovieUniqueness = async (req, res, next) => {
 		});
 
 		if (movieExists) {
-			const error = new Error("Movie already exists!");
-			error.statusCode = 400;
-			return next(error);
+			return next(new AppError("Movie already exists!", 400));
 		}
 		next();
 	} catch (error) {

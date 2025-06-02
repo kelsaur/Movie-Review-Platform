@@ -1,4 +1,5 @@
 import Movie from "../models/Movie.js";
+import { AppError } from "../utils/AppError.js";
 
 export const validateMovieId = async (req, res, next) => {
 	const { id } = req.params;
@@ -7,9 +8,7 @@ export const validateMovieId = async (req, res, next) => {
 		const movie = await Movie.findById(id);
 
 		if (!movie) {
-			const error = new Error("A movie with this ID doesn't exist!");
-			error.statusCode = 404;
-			return next(error);
+			return next(new AppError("A movie with this ID doesn't exist!", 404));
 		}
 
 		req.movie = movie;

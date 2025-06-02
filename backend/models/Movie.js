@@ -19,7 +19,7 @@ const movieSchema = new mongoose.Schema({
 	genre: {
 		type: String,
 		required: true,
-		enum: genres,
+		enum: genres.map((g) => g.toLowerCase()),
 	},
 });
 

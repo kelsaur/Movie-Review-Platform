@@ -1,7 +1,8 @@
 import User from "../models/User.js";
+import { AppError } from "../utils/AppError.js";
 
 export const validateUserUniqueness = async (req, res, next) => {
-	const { email, username } = req.body;
+	let { email, username } = req.body;
 
 	email = email.trim().toLowerCase();
 	username = username.trim().toLowerCase();
@@ -11,9 +12,7 @@ export const validateUserUniqueness = async (req, res, next) => {
 			$or: [{ email }, { username: req.body.username }],
 		});
 		if (userExists) {
-			const error = new Error("Email or username already in use!");
-			error.statusCode = 400;
-			return next(error);
+			return next(new AppError("Email or username already in use!", 400));
 		}
 
 		next();

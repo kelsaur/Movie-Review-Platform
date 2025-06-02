@@ -40,18 +40,22 @@ export const getMovie = async (req, res, next) => {
 
 export const updateMovie = async (req, res, next) => {
 	const movie = req.movie;
-	const { title, director, releaseYear, genre } = req.body;
 
 	try {
-		//****need an update validation schema****/
-		movie.set({ title, director, releaseYear, genre });
+		movie.set({
+			...(req.body.title && { title: req.body.title }),
+			...(req.body.director && { director: req.body.director }),
+			...(req.body.releaseYear && { releaseYear: req.body.releaseYear }),
+			...(req.body.genre && { genre: req.body.genre }),
+		});
+
 		const updatedMovie = await movie.save();
-		//****need an update validation schema****/
 
 		res
 			.status(200)
 			.json({ success: true, message: "Movie updated!", movie: updatedMovie });
 	} catch (error) {
+		console.error("Error in updateMovie: ", error);
 		next(error);
 	}
 };

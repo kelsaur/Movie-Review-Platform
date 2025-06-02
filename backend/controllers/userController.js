@@ -6,9 +6,6 @@ export const registerUser = async (req, res, next) => {
 	const { username, email, password, role } = req.body;
 	const saltRounds = 10;
 
-	email = email.trim().toLowerCase();
-	username = username.trim().toLowerCase();
-
 	try {
 		const hashedPassword = await bcrypt.hash(password, saltRounds);
 

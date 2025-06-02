@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
-import { errorHandler } from "./middlewares/errorHandler";
-import movieRoutes from "./routes/movieRoutes";
-import reviewRoutes from "./routes/reviewRoutes";
-import userRoutes from "./routes/userRoutes";
+import { errorHandler } from "./middlewares/errorHandler.js";
+import movieRoutes from "./routes/movieRoutes.js";
+import reviewRoutes from "./routes/reviewRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 const app = express();
 app.use(express.json());

@@ -1,3 +1,5 @@
+import { AppError } from "../utils/AppError.js";
+
 export const validate = (schema) => async (req, res, next) => {
 	try {
 		//check that the incoming req.body matches schema, return ALL errors (abortEarly: false)
@@ -7,8 +9,7 @@ export const validate = (schema) => async (req, res, next) => {
 		req.body = value;
 		next();
 	} catch (error) {
-		error.statusCode = 400;
-		error.details = error.details.map((e) => e.message); //cleaner output
-		return next(error);
+		const messages = error.details.map((e) => e.message); //cleaner output
+		return next(new AppError(messages, 400));
 	}
 };
