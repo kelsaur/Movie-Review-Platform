@@ -13,20 +13,40 @@ import {
 	updateMovie,
 	deleteMovie,
 } from "../controllers/movieController.js";
-import { getReviewsForMovie } from "../controllers/reviewController.js";
+import {
+	getReviewsForMovie,
+	getAverageRatingForMovies,
+} from "../controllers/reviewController.js";
+import { validateToken } from "../middlewares/validateToken.js";
+import { validateRole } from "../middlewares/validateRole.js";
 
 const router = express.Router();
 
 router
 	.route("/")
 	.get(getMovies)
-	.post(validate(addMovieSchema), validateMovieUniqueness, addMovie);
+	.post(
+		validateToken,
+		validateRole,
+		validate(addMovieSchema),
+		validateMovieUniqueness,
+		addMovie
+	);
+
+router.route("/ratings").get(getAverageRatingForMovies);
+
 router
 	.route("/:id")
 	.get(validateMovieId, getMovie)
-	.put(validateMovieId, validate(updateMovieSchema), updateMovie)
-	.delete(validateMovieId, deleteMovie);
+	.put(
+		validateToken,
+		validateRole,
+		validateMovieId,
+		validate(updateMovieSchema),
+		updateMovie
+	)
+	.delete(validateToken, validateRole, validateMovieId, deleteMovie);
 
-router.get("/:id/reviews", validateMovieId, getReviewsForMovie);
+router.route("/:id/reviews").get(validateMovieId, getReviewsForMovie);
 
 export default router;

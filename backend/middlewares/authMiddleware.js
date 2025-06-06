@@ -8,7 +8,7 @@ export const verifyUserCredentials = async (req, res, next) => {
 	try {
 		const user = await User.findOne({ email: email.trim().toLowerCase() });
 		if (!user) {
-			return next(new AppError("User with this email doesn't exist!"), 401);
+			return next(new AppError("User with this email doesn't exist!", 401));
 		}
 
 		const isMatch = await bcrypt.compare(password, user.password);

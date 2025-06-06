@@ -47,10 +47,13 @@ export const getReview = async (req, res, next) => {
 
 export const updateReview = async (req, res, next) => {
 	const review = req.review;
-	const { rating, comment } = req.body;
 
 	try {
-		review.set({ rating, comment });
+		review.set({
+			...(req.body.rating && { rating: req.body.rating }),
+			...(req.body.comment && { comment: req.body.comment }),
+		});
+
 		const updatedReview = await review.save();
 
 		res.status(200).json({
@@ -95,6 +98,44 @@ export const getReviewsForMovie = async (req, res, next) => {
 		res.status(200).json({ success: true, reviews });
 	} catch (error) {
 		//console.error("Error in getReviewsForMovie:", error);
+		next(error);
+	}
+};
+
+export const getAverageRatingForMovies = async (req, res, next) => {
+	//console.log("getAverageRatingForMovies hit!");
+	try {
+		const moviesWithRatings = await Review.aggregate([
+			{
+				$group: {
+					_id: "$movieId",
+					averageRating: { $avg: "$rating" },
+				},
+			},
+			{
+				$lookup: {
+					// JOIN in SQL
+					from: "movies",
+					localField: "_id",
+					foreignField: "_id",
+					as: "movie",
+				},
+			},
+			{ $unwind: "$movie" }, // writes out each movie as its own object not an array of movies
+			{
+				$project: {
+					// pick out what columns to write from the object
+					movieId: "$movie._id",
+					title: "$movie.title",
+					averageRating: "$averageRating",
+				},
+			},
+		]);
+
+		//console.log("Aggregation success!");
+		res.status(200).json({ success: true, movies: moviesWithRatings });
+	} catch (error) {
+		console.log("Aggregation errror: ", error);
 		next(error);
 	}
 };

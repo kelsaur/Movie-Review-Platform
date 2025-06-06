@@ -15,7 +15,7 @@ export const addMovie = async (req, res, next) => {
 
 	try {
 		const newMovie = await Movie.create({
-			title: title.trim().toLowerCase(),
+			title: title,
 			director,
 			releaseYear,
 			genre,

@@ -7,4 +7,6 @@ export const genres = [
 	"Sci-Fi",
 	"Thriller",
 	"Documentary",
+	"Crime",
+	"History",
 ];
