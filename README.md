@@ -79,7 +79,7 @@ A backend app to handle movie reviews with user authentication.
 
 ## Endpoints
 
-\* = admin only (role is automatically set to "user" if no `"field": "admin"` is added in registration body)
+\* = admin only (role is automatically set to "user" if no `"role": "admin"` is added in registration body)
 
 POST /movies: Add a new movie. \*
 
